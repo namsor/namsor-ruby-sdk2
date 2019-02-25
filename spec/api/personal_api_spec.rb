@@ -20,6 +20,11 @@ describe 'PersonalApi' do
   before do
     # run before each test
     @api_instance = NamSorClient::PersonalApi.new
+
+    NamSorClient.configure do |config|
+      # Configure API key authorization: api_key
+      config.api_key['X-API-KEY'] = ENV['API_KEY']
+    end
   end
 
   after do
@@ -86,7 +91,21 @@ describe 'PersonalApi' do
   # @return [FirstLastNameGenderedOut]
   describe 'gender test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      first_name = 'William' # String | 
+      last_name = 'Cheng' # String | 
+      begin
+        #Infer the likely gender of a name.
+        result = @api_instance.gender(first_name, last_name)
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->gender: #{e}"
+      end
+
+      expect(result.first_name).to eq("William")
+      expect(result.last_name).to eq("Cheng")
+      expect(result.likely_gender).to eq("male")
+      expect(result.score).to be > 6
+      expect(result.gender_scale).to eq(-1.0)
+
     end
   end
 
@@ -98,6 +117,33 @@ describe 'PersonalApi' do
   describe 'gender_batch test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      opts = {
+        # BatchFirstLastNameIn | A list of personal names
+        :"batch_first_last_name_in" => NamSorClient::BatchFirstLastNameIn.new(:"personal_names" => [ 
+          NamSorClient::FirstLastNameIn.new(:"id" => "1", :"first_name" => "William", :"last_name" => "Cheng"),
+          NamSorClient::FirstLastNameIn.new(:"id" => "2", :"first_name" => "Elian", :"last_name" => "Carsenat")
+        ])
+      }
+      begin
+        #Infer the likely gender of up to 1000 names, detecting automatically the cultural context.
+        result = @api_instance.gender_batch(opts)
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->gender_batch: #{e}"
+      end
+
+      expect(result).not_to be_nil
+
+      expect(result.personal_names[0].first_name).to eq("William")
+      expect(result.personal_names[0].last_name).to eq("Cheng")
+      expect(result.personal_names[0].likely_gender).to eq("male")
+      expect(result.personal_names[0].score).to be > 6
+      expect(result.personal_names[0].gender_scale).to eq(-1.0)
+
+      expect(result.personal_names[1].first_name).to eq("Elian")
+      expect(result.personal_names[1].last_name).to eq("Carsenat")
+      expect(result.personal_names[1].likely_gender).to eq("male")
+      expect(result.personal_names[1].score).to be > 3.5
+      expect(result.personal_names[1].gender_scale).to eq(-1.0)
     end
   end
 
@@ -155,7 +201,23 @@ describe 'PersonalApi' do
   # @return [FirstLastNameGenderedOut]
   describe 'gender_geo test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      first_name = 'William' # String | 
+      last_name = 'Cheng' # String | 
+      country_iso2 = 'US' # String |
+
+      begin
+        #Infer the likely gender of a name.
+        result = @api_instance.gender_geo(first_name, last_name, country_iso2)
+        #p result
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->gender: #{e}"
+      end
+
+      expect(result.first_name).to eq("William")
+      expect(result.last_name).to eq("Cheng")
+      expect(result.likely_gender).to eq("male")
+      expect(result.score).to be > 6
+      expect(result.gender_scale).to eq(-1.0)
     end
   end
 
@@ -167,6 +229,31 @@ describe 'PersonalApi' do
   describe 'gender_geo_batch test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      opts = {
+        :"batch_first_last_name_geo_in" => NamSorClient::BatchFirstLastNameGeoIn.new(:"personal_names" => [
+          NamSorClient::FirstLastNameGeoIn.new(:"id" => "1", :"first_name" => "William", :"last_name" => "Cheng", :"country_iso2" => "UK"),
+          NamSorClient::FirstLastNameGeoIn.new(:"id" => "2", :"first_name" => "Elian", :"last_name" => "Carsenat", :"country_iso2" => "JP")
+        ])
+      }
+      begin
+        result = @api_instance.gender_geo_batch(opts)
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->gender_geo_batch: #{e}"
+      end
+
+      expect(result).not_to be_nil
+
+      expect(result.personal_names[0].first_name).to eq("William")
+      expect(result.personal_names[0].last_name).to eq("Cheng")
+      expect(result.personal_names[0].likely_gender).to eq("male")
+      expect(result.personal_names[0].score).to be > 6
+      expect(result.personal_names[0].gender_scale).to eq(-1.0)
+
+      expect(result.personal_names[1].first_name).to eq("Elian")
+      expect(result.personal_names[1].last_name).to eq("Carsenat")
+      expect(result.personal_names[1].likely_gender).to eq("male")
+      expect(result.personal_names[1].score).to be > 3.5
+      expect(result.personal_names[1].gender_scale).to eq(-1.0) 
     end
   end
 
@@ -179,6 +266,25 @@ describe 'PersonalApi' do
   describe 'origin test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      first_name = 'William' # String |
+      last_name = 'Cheng' # String |
+
+      begin
+        #Infer the likely gender of a name.
+        result = @api_instance.origin(first_name, last_name)
+        #p result
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->origin: #{e}"
+      end
+
+      expect(result.first_name).to eq("William")
+      expect(result.last_name).to eq("Cheng")
+      expect(result.score).to be > 3
+      expect(result.country_origin).to eq("TW")
+      expect(result.country_origin_alt).to eq("CN")
+      expect(result.region_origin).to eq("Asia")
+      expect(result.top_region_origin).to eq("Asia")
+      expect(result.sub_region_origin).to eq("Eastern Asia")
     end
   end
 
@@ -190,6 +296,37 @@ describe 'PersonalApi' do
   describe 'origin_batch test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      opts = {
+        :"batch_first_last_name_in" => NamSorClient::BatchFirstLastNameIn.new(:"personal_names" => [
+          NamSorClient::FirstLastNameIn.new(:"id" => "1", :"first_name" => "William", :"last_name" => "Cheng"),
+          NamSorClient::FirstLastNameIn.new(:"id" => "2", :"first_name" => "Elian", :"last_name" => "Carsenat")
+        ])
+      }
+      begin
+        result = @api_instance.origin_batch(opts)
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->origin_batch: #{e}"
+      end
+
+      expect(result).not_to be_nil
+
+      expect(result.personal_names[0].first_name).to eq("William")
+      expect(result.personal_names[0].last_name).to eq("Cheng")
+      expect(result.personal_names[0].score).to be > 3.5
+      expect(result.personal_names[0].country_origin).to eq("TW")
+      expect(result.personal_names[0].country_origin_alt).to eq("CN")
+      expect(result.personal_names[0].region_origin).to eq("Asia")
+      expect(result.personal_names[0].top_region_origin).to eq("Asia")
+      expect(result.personal_names[0].sub_region_origin).to eq("Eastern Asia")
+
+      expect(result.personal_names[1].first_name).to eq("Elian")
+      expect(result.personal_names[1].last_name).to eq("Carsenat")
+      expect(result.personal_names[1].score).to be > 3.5
+      expect(result.personal_names[1].country_origin).to eq("FR")
+      expect(result.personal_names[1].country_origin_alt).to eq("IL")
+      expect(result.personal_names[1].region_origin).to eq("Europe")
+      expect(result.personal_names[1].top_region_origin).to eq("Europe")
+      expect(result.personal_names[1].sub_region_origin).to eq("Western Europe")
     end
   end
 
