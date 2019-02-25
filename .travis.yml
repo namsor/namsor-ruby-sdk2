@@ -5,4 +5,5 @@ rvm:
 script:
   - gem build namsor_client.gemspec
   - gem install ./namsor_client-0.1.0.gem
+  - bundle install --path vendor/bundle
   - bundle exec rspec
