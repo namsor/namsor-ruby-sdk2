@@ -312,7 +312,7 @@ describe 'PersonalApi' do
 
       expect(result.personal_names[0].first_name).to eq("William")
       expect(result.personal_names[0].last_name).to eq("Cheng")
-      expect(result.personal_names[0].score).to be > 3.5
+      expect(result.personal_names[0].score).to be > 2.5
       expect(result.personal_names[0].country_origin).to eq("TW")
       expect(result.personal_names[0].country_origin_alt).to eq("CN")
       expect(result.personal_names[0].region_origin).to eq("Asia")
