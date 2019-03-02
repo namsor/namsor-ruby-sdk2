@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **user_id** | **String** |  | [optional] 
 **admin** | **BOOLEAN** |  | [optional] 
 **vetted** | **BOOLEAN** |  | [optional] 
+**learnable** | **BOOLEAN** |  | [optional] 
 **partner** | **BOOLEAN** |  | [optional] 
 **striped** | **BOOLEAN** |  | [optional] 
 **corporate** | **BOOLEAN** |  | [optional] 
@@ -21,6 +22,7 @@ instance = NamSorClient::APIKeyOut.new(api_key: null,
                                  user_id: null,
                                  admin: null,
                                  vetted: null,
+                                 learnable: null,
                                  partner: null,
                                  striped: null,
                                  corporate: null,

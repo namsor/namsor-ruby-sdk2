@@ -639,6 +639,60 @@ module NamSorClient
       return data, status_code, headers
     end
 
+    # Activate/deactivate learning from a source.
+    # @param source 
+    # @param learnable 
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def learnable(source, learnable, opts = {})
+      learnable_with_http_info(source, learnable, opts)
+      nil
+    end
+
+    # Activate/deactivate learning from a source.
+    # @param source 
+    # @param learnable 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def learnable_with_http_info(source, learnable, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AdminApi.learnable ...'
+      end
+      # verify the required parameter 'source' is set
+      if @api_client.config.client_side_validation && source.nil?
+        fail ArgumentError, "Missing the required parameter 'source' when calling AdminApi.learnable"
+      end
+      # verify the required parameter 'learnable' is set
+      if @api_client.config.client_side_validation && learnable.nil?
+        fail ArgumentError, "Missing the required parameter 'learnable' when calling AdminApi.learnable"
+      end
+      # resource path
+      local_var_path = '/api2/json/learnable/{source}/{learnable}'.sub('{' + 'source' + '}', source.to_s).sub('{' + 'learnable' + '}', learnable.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['api_key']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AdminApi#learnable\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get the overall API counter
     # @param [Hash] opts the optional parameters
     # @return [SoftwareVersionOut]

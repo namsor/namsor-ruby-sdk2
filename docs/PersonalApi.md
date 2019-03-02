@@ -18,11 +18,15 @@ Method | HTTP request | Description
 [**gender_geo_batch**](PersonalApi.md#gender_geo_batch) | **POST** /api2/json/genderGeoBatch | Infer the likely gender of up to 1000 names, each given a local context (ISO2 country code).
 [**origin**](PersonalApi.md#origin) | **GET** /api2/json/origin/{firstName}/{lastName} | [USES 10 UNITS] Infer the likely country of origin of a personal name. Assumes names as they are in the country of origin. For US, CA, AU, NZ and other melting-pots : use &#39;diaspora&#39; instead.
 [**origin_batch**](PersonalApi.md#origin_batch) | **POST** /api2/json/originBatch | [USES 10 UNITS] Infer the likely country of origin of up to 1000 names, detecting automatically the cultural context.
+[**parse_name**](PersonalApi.md#parse_name) | **GET** /api2/json/parseName/{nameFull} | Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. 
+[**parse_name_batch**](PersonalApi.md#parse_name_batch) | **POST** /api2/json/parseNameBatch | Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.
+[**parse_name_geo**](PersonalApi.md#parse_name_geo) | **GET** /api2/json/parseName/{nameFull}/{countryIso2} | Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.
+[**parse_name_geo_batch**](PersonalApi.md#parse_name_geo_batch) | **POST** /api2/json/parseNameGeoBatch | Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. 
 [**parsed_gender_batch**](PersonalApi.md#parsed_gender_batch) | **POST** /api2/json/parsedGenderBatch | Infer the likely gender of up to 1000 fully parsed names, detecting automatically the cultural context.
 [**parsed_gender_geo_batch**](PersonalApi.md#parsed_gender_geo_batch) | **POST** /api2/json/parsedGenderGeoBatch | Infer the likely gender of up to 1000 fully parsed names, detecting automatically the cultural context.
-[**us_race_ethnicity**](PersonalApi.md#us_race_ethnicity) | **GET** /api2/json/usRaceEthnicity/{firstName}/{lastName} | [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy.
+[**us_race_ethnicity**](PersonalApi.md#us_race_ethnicity) | **GET** /api2/json/usRaceEthnicity/{firstName}/{lastName} | [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
 [**us_race_ethnicity_batch**](PersonalApi.md#us_race_ethnicity_batch) | **POST** /api2/json/usRaceEthnicityBatch | [USES 10 UNITS] Infer up-to 1000 US resident&#39;s likely race/ethnicity according to US Census taxonomy.
-[**us_race_ethnicity_zip5**](PersonalApi.md#us_race_ethnicity_zip5) | **GET** /api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code} | [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info.
+[**us_race_ethnicity_zip5**](PersonalApi.md#us_race_ethnicity_zip5) | **GET** /api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code} | [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
 [**us_zip_race_ethnicity_batch**](PersonalApi.md#us_zip_race_ethnicity_batch) | **POST** /api2/json/usZipRaceEthnicityBatch | [USES 10 UNITS] Infer up-to 1000 US resident&#39;s likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code.
 
 
@@ -754,6 +758,212 @@ Name | Type | Description  | Notes
 
 
 
+# **parse_name**
+> PersonalNameParsedOut parse_name(name_full)
+
+Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. 
+
+### Example
+```ruby
+# load the gem
+require 'namsor_client'
+# setup authorization
+NamSorClient.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['X-API-KEY'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['X-API-KEY'] = 'Bearer'
+end
+
+api_instance = NamSorClient::PersonalApi.new
+name_full = 'name_full_example' # String | 
+
+begin
+  #Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. 
+  result = api_instance.parse_name(name_full)
+  p result
+rescue NamSorClient::ApiError => e
+  puts "Exception when calling PersonalApi->parse_name: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name_full** | **String**|  | 
+
+### Return type
+
+[**PersonalNameParsedOut**](PersonalNameParsedOut.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+
+# **parse_name_batch**
+> BatchPersonalNameParsedOut parse_name_batch(opts)
+
+Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.
+
+### Example
+```ruby
+# load the gem
+require 'namsor_client'
+# setup authorization
+NamSorClient.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['X-API-KEY'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['X-API-KEY'] = 'Bearer'
+end
+
+api_instance = NamSorClient::PersonalApi.new
+opts = {
+  batch_personal_name_in: NamSorClient::BatchPersonalNameIn.new # BatchPersonalNameIn | A list of personal names
+}
+
+begin
+  #Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.
+  result = api_instance.parse_name_batch(opts)
+  p result
+rescue NamSorClient::ApiError => e
+  puts "Exception when calling PersonalApi->parse_name_batch: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **batch_personal_name_in** | [**BatchPersonalNameIn**](BatchPersonalNameIn.md)| A list of personal names | [optional] 
+
+### Return type
+
+[**BatchPersonalNameParsedOut**](BatchPersonalNameParsedOut.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+
+# **parse_name_geo**
+> PersonalNameParsedOut parse_name_geo(name_full, country_iso2)
+
+Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.
+
+### Example
+```ruby
+# load the gem
+require 'namsor_client'
+# setup authorization
+NamSorClient.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['X-API-KEY'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['X-API-KEY'] = 'Bearer'
+end
+
+api_instance = NamSorClient::PersonalApi.new
+name_full = 'name_full_example' # String | 
+country_iso2 = 'country_iso2_example' # String | 
+
+begin
+  #Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.
+  result = api_instance.parse_name_geo(name_full, country_iso2)
+  p result
+rescue NamSorClient::ApiError => e
+  puts "Exception when calling PersonalApi->parse_name_geo: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name_full** | **String**|  | 
+ **country_iso2** | **String**|  | 
+
+### Return type
+
+[**PersonalNameParsedOut**](PersonalNameParsedOut.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+
+# **parse_name_geo_batch**
+> BatchPersonalNameParsedOut parse_name_geo_batch(opts)
+
+Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. 
+
+### Example
+```ruby
+# load the gem
+require 'namsor_client'
+# setup authorization
+NamSorClient.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['X-API-KEY'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['X-API-KEY'] = 'Bearer'
+end
+
+api_instance = NamSorClient::PersonalApi.new
+opts = {
+  batch_personal_name_geo_in: NamSorClient::BatchPersonalNameGeoIn.new # BatchPersonalNameGeoIn | A list of personal names
+}
+
+begin
+  #Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. 
+  result = api_instance.parse_name_geo_batch(opts)
+  p result
+rescue NamSorClient::ApiError => e
+  puts "Exception when calling PersonalApi->parse_name_geo_batch: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **batch_personal_name_geo_in** | [**BatchPersonalNameGeoIn**](BatchPersonalNameGeoIn.md)| A list of personal names | [optional] 
+
+### Return type
+
+[**BatchPersonalNameParsedOut**](BatchPersonalNameParsedOut.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+
 # **parsed_gender_batch**
 > BatchFirstLastNameGenderedOut parsed_gender_batch(opts)
 
@@ -861,7 +1071,7 @@ Name | Type | Description  | Notes
 # **us_race_ethnicity**
 > FirstLastNameUSRaceEthnicityOut us_race_ethnicity(first_name, last_name)
 
-[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy.
+[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
 
 ### Example
 ```ruby
@@ -880,7 +1090,7 @@ first_name = 'first_name_example' # String |
 last_name = 'last_name_example' # String | 
 
 begin
-  #[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy.
+  #[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
   result = api_instance.us_race_ethnicity(first_name, last_name)
   p result
 rescue NamSorClient::ApiError => e
@@ -965,7 +1175,7 @@ Name | Type | Description  | Notes
 # **us_race_ethnicity_zip5**
 > FirstLastNameUSRaceEthnicityOut us_race_ethnicity_zip5(first_name, last_name, zip5_code)
 
-[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info.
+[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
 
 ### Example
 ```ruby
@@ -985,7 +1195,7 @@ last_name = 'last_name_example' # String |
 zip5_code = 'zip5_code_example' # String | 
 
 begin
-  #[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info.
+  #[USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
   result = api_instance.us_race_ethnicity_zip5(first_name, last_name, zip5_code)
   p result
 rescue NamSorClient::ApiError => e

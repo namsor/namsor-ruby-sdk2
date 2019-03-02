@@ -238,5 +238,4 @@ module NamSorClient
       end
     end
   end
-
 end

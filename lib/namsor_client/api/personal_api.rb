@@ -761,6 +761,212 @@ module NamSorClient
       return data, status_code, headers
     end
 
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. 
+    # @param name_full 
+    # @param [Hash] opts the optional parameters
+    # @return [PersonalNameParsedOut]
+    def parse_name(name_full, opts = {})
+      data, _status_code, _headers = parse_name_with_http_info(name_full, opts)
+      data
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. 
+    # @param name_full 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(PersonalNameParsedOut, Fixnum, Hash)>] PersonalNameParsedOut data, response status code and response headers
+    def parse_name_with_http_info(name_full, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PersonalApi.parse_name ...'
+      end
+      # verify the required parameter 'name_full' is set
+      if @api_client.config.client_side_validation && name_full.nil?
+        fail ArgumentError, "Missing the required parameter 'name_full' when calling PersonalApi.parse_name"
+      end
+      # resource path
+      local_var_path = '/api2/json/parseName/{nameFull}'.sub('{' + 'nameFull' + '}', name_full.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['api_key']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'PersonalNameParsedOut')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PersonalApi#parse_name\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.
+    # @param [Hash] opts the optional parameters
+    # @option opts [BatchPersonalNameIn] :batch_personal_name_in A list of personal names
+    # @return [BatchPersonalNameParsedOut]
+    def parse_name_batch(opts = {})
+      data, _status_code, _headers = parse_name_batch_with_http_info(opts)
+      data
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.
+    # @param [Hash] opts the optional parameters
+    # @option opts [BatchPersonalNameIn] :batch_personal_name_in A list of personal names
+    # @return [Array<(BatchPersonalNameParsedOut, Fixnum, Hash)>] BatchPersonalNameParsedOut data, response status code and response headers
+    def parse_name_batch_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PersonalApi.parse_name_batch ...'
+      end
+      # resource path
+      local_var_path = '/api2/json/parseNameBatch'
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'batch_personal_name_in'])
+      auth_names = ['api_key']
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'BatchPersonalNameParsedOut')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PersonalApi#parse_name_batch\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.
+    # @param name_full 
+    # @param country_iso2 
+    # @param [Hash] opts the optional parameters
+    # @return [PersonalNameParsedOut]
+    def parse_name_geo(name_full, country_iso2, opts = {})
+      data, _status_code, _headers = parse_name_geo_with_http_info(name_full, country_iso2, opts)
+      data
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.
+    # @param name_full 
+    # @param country_iso2 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(PersonalNameParsedOut, Fixnum, Hash)>] PersonalNameParsedOut data, response status code and response headers
+    def parse_name_geo_with_http_info(name_full, country_iso2, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PersonalApi.parse_name_geo ...'
+      end
+      # verify the required parameter 'name_full' is set
+      if @api_client.config.client_side_validation && name_full.nil?
+        fail ArgumentError, "Missing the required parameter 'name_full' when calling PersonalApi.parse_name_geo"
+      end
+      # verify the required parameter 'country_iso2' is set
+      if @api_client.config.client_side_validation && country_iso2.nil?
+        fail ArgumentError, "Missing the required parameter 'country_iso2' when calling PersonalApi.parse_name_geo"
+      end
+      # resource path
+      local_var_path = '/api2/json/parseName/{nameFull}/{countryIso2}'.sub('{' + 'nameFull' + '}', name_full.to_s).sub('{' + 'countryIso2' + '}', country_iso2.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['api_key']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'PersonalNameParsedOut')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PersonalApi#parse_name_geo\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. 
+    # @param [Hash] opts the optional parameters
+    # @option opts [BatchPersonalNameGeoIn] :batch_personal_name_geo_in A list of personal names
+    # @return [BatchPersonalNameParsedOut]
+    def parse_name_geo_batch(opts = {})
+      data, _status_code, _headers = parse_name_geo_batch_with_http_info(opts)
+      data
+    end
+
+    # Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. 
+    # @param [Hash] opts the optional parameters
+    # @option opts [BatchPersonalNameGeoIn] :batch_personal_name_geo_in A list of personal names
+    # @return [Array<(BatchPersonalNameParsedOut, Fixnum, Hash)>] BatchPersonalNameParsedOut data, response status code and response headers
+    def parse_name_geo_batch_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PersonalApi.parse_name_geo_batch ...'
+      end
+      # resource path
+      local_var_path = '/api2/json/parseNameGeoBatch'
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'batch_personal_name_geo_in'])
+      auth_names = ['api_key']
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'BatchPersonalNameParsedOut')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PersonalApi#parse_name_geo_batch\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Infer the likely gender of up to 1000 fully parsed names, detecting automatically the cultural context.
     # @param [Hash] opts the optional parameters
     # @option opts [BatchParsedFullNameIn] :batch_parsed_full_name_in A list of personal names
@@ -859,7 +1065,7 @@ module NamSorClient
       return data, status_code, headers
     end
 
-    # [USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy.
+    # [USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
     # @param first_name 
     # @param last_name 
     # @param [Hash] opts the optional parameters
@@ -869,7 +1075,7 @@ module NamSorClient
       data
     end
 
-    # [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy.
+    # [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
     # @param first_name 
     # @param last_name 
     # @param [Hash] opts the optional parameters
@@ -965,7 +1171,7 @@ module NamSorClient
       return data, status_code, headers
     end
 
-    # [USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info.
+    # [USES 10 UNITS] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
     # @param first_name 
     # @param last_name 
     # @param zip5_code 
@@ -976,7 +1182,7 @@ module NamSorClient
       data
     end
 
-    # [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info.
+    # [USES 10 UNITS] Infer a US resident&#39;s likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).
     # @param first_name 
     # @param last_name 
     # @param zip5_code 

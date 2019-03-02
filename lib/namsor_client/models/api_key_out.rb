@@ -22,6 +22,8 @@ module NamSorClient
 
     attr_accessor :vetted
 
+    attr_accessor :learnable
+
     attr_accessor :partner
 
     attr_accessor :striped
@@ -37,6 +39,7 @@ module NamSorClient
         :'user_id' => :'userId',
         :'admin' => :'admin',
         :'vetted' => :'vetted',
+        :'learnable' => :'learnable',
         :'partner' => :'partner',
         :'striped' => :'striped',
         :'corporate' => :'corporate',
@@ -51,6 +54,7 @@ module NamSorClient
         :'user_id' => :'String',
         :'admin' => :'BOOLEAN',
         :'vetted' => :'BOOLEAN',
+        :'learnable' => :'BOOLEAN',
         :'partner' => :'BOOLEAN',
         :'striped' => :'BOOLEAN',
         :'corporate' => :'BOOLEAN',
@@ -87,6 +91,10 @@ module NamSorClient
 
       if attributes.key?(:'vetted')
         self.vetted = attributes[:'vetted']
+      end
+
+      if attributes.key?(:'learnable')
+        self.learnable = attributes[:'learnable']
       end
 
       if attributes.key?(:'partner')
@@ -128,6 +136,7 @@ module NamSorClient
           user_id == o.user_id &&
           admin == o.admin &&
           vetted == o.vetted &&
+          learnable == o.learnable &&
           partner == o.partner &&
           striped == o.striped &&
           corporate == o.corporate &&
@@ -143,7 +152,7 @@ module NamSorClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [api_key, user_id, admin, vetted, partner, striped, corporate, disabled].hash
+      [api_key, user_id, admin, vetted, learnable, partner, striped, corporate, disabled].hash
     end
 
     # Builds the object from hash
@@ -256,5 +265,4 @@ module NamSorClient
       end
     end
   end
-
 end

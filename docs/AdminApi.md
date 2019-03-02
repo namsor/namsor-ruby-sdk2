@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**corporate_key**](AdminApi.md#corporate_key) | **GET** /api2/json/corporateKey/{apiKey}/{corporate} | Setting an API Key to a corporate status.
 [**debug_level**](AdminApi.md#debug_level) | **GET** /api2/json/debugLevel/{logger}/{level} | Update debug level for a classifier
 [**invalidate_cache**](AdminApi.md#invalidate_cache) | **GET** /api2/json/invalidateCache | Invalidate system caches.
+[**learnable**](AdminApi.md#learnable) | **GET** /api2/json/learnable/{source}/{learnable} | Activate/deactivate learning from a source.
 [**namsor_counter**](AdminApi.md#namsor_counter) | **GET** /api2/json/namsorCounter | Get the overall API counter
 [**payment_info**](AdminApi.md#payment_info) | **GET** /api2/json/paymentInfo/{token} | Get the Stripe payment information associated with the current google auth session token.
 [**procure_key**](AdminApi.md#procure_key) | **GET** /api2/json/procureKey/{token} | Procure an API Key (sent via Email), based on an auth token. Keep your API Key secret.
@@ -647,6 +648,57 @@ end
 
 ### Parameters
 This endpoint does not need any parameter.
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+
+# **learnable**
+> learnable(source, learnable)
+
+Activate/deactivate learning from a source.
+
+### Example
+```ruby
+# load the gem
+require 'namsor_client'
+# setup authorization
+NamSorClient.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['X-API-KEY'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['X-API-KEY'] = 'Bearer'
+end
+
+api_instance = NamSorClient::AdminApi.new
+source = 'source_example' # String | 
+learnable = true # BOOLEAN | 
+
+begin
+  #Activate/deactivate learning from a source.
+  api_instance.learnable(source, learnable)
+rescue NamSorClient::ApiError => e
+  puts "Exception when calling AdminApi->learnable: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **source** | **String**|  | 
+ **learnable** | **BOOLEAN**|  | 
 
 ### Return type
 
