@@ -107,6 +107,24 @@ describe 'PersonalApi' do
       expect(result.gender_scale).to eq(-1.0)
 
     end
+
+    it 'should work with space in the input' do
+      first_name = 'John H.' # String | 
+      last_name = 'Smith' # String | 
+      begin
+        #Infer the likely gender of a name.
+        result = @api_instance.gender(first_name, last_name)
+      rescue NamSorClient::ApiError => e
+        puts "Exception when calling PersonalApi->gender: #{e}"
+      end
+
+      expect(result.first_name).to eq("John H.")
+      expect(result.last_name).to eq("Smith")
+      expect(result.likely_gender).to eq("male")
+      expect(result.score).to be > 6
+      expect(result.gender_scale).to eq(-1.0)
+
+    end
   end
 
   # unit tests for gender_batch
